@@ -6,8 +6,8 @@
     </component>
   </module-components>
 
-  <name>La Clojure</name>
-  <id>org.intellij.clojure</id>
+  <name>La Clojure (HEROLABS)</name>
+  <id>org.intellij.clojure-h</id>
   <description>Provides Clojure language support: syntax and error highlighting, completion, navigation and
     refactorings
   </description>

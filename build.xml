@@ -11,7 +11,7 @@
   <property name="test.dest" value="${project.dir}/out/test/clojure-plugin"/>
   <property name="test.dist" value="${project.dir}/test_dist"/>
   <property name="main.dist" value="${project.dir}/dist"/>
-  <property name="idea.pack" value="${project.dir}/idea_pack"/>
+  <property name="idea.home" value="${project.dir}/idea_pack/IntelliJ-IDEA-12-CE.app"/>
   <property name="tools.jar.dir" value="${java.home}/lib"/>
 
   <path id="tools.path">
@@ -66,19 +66,6 @@
     </fileset>
   </path>
 
-  <condition property="need.to.unzip">
-    <available file="${idea.pack}"/>
-  </condition>
-
-  <target name="unzip.last.successful.IDEA.build" if="need.to.unzip">
-    <mkdir dir="${idea.home}"/>
-    <unzip dest="${idea.home}">
-      <fileset dir="${idea.pack}">
-        <include name="*.zip"/>
-      </fileset>
-    </unzip>
-  </target>
-
 
   <target name="init">
     <mkdir dir="${project.dest}"/>
@@ -97,9 +84,9 @@
     </java>
   </target>
 
-  <target name="make.java" depends="make.lexer, unzip.last.successful.IDEA.build">
+  <target name="make.java" depends="make.lexer">
     <!-- Read SINCE and UNTIL properties -->
-    <loadfile property="idea.build" srcFile="${idea.home}/build.txt" failonerror="true"/>
+    <!-- loadfile property="idea.build" srcFile="${idea.home}/build.txt" failonerror="true"/-->
     <!--Copy descriptor-->
     <copy todir="${project.dest}/META-INF">
       <fileset dir="${project.dir}/META-INF"/>
@@ -159,8 +146,8 @@
 
   <target name="make.plugin" depends="make.java">
     <replace file="${project.dest}/META-INF/plugin.xml" token="VERSION" value="${plugin.version}"/>
-    <replace file="${project.dest}/META-INF/plugin.xml" token="SINCE_IDEA" value="${idea.build}"/>
-    <replace file="${project.dest}/META-INF/plugin.xml" token="UNTIL_IDEA" value="${idea.build}"/>
+    <replace file="${project.dest}/META-INF/plugin.xml" token="SINCE_IDEA" value="${idea.build.since}"/>
+    <replace file="${project.dest}/META-INF/plugin.xml" token="UNTIL_IDEA" value="${idea.build.until}"/>
   </target>
 
   <target name="deploy.plugin" depends="clean, make.plugin">

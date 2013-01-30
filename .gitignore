@@ -5,3 +5,5 @@ dist
 jflex.log
 lib/*SDK
 *~
+idea_pack
+.idea/workspace.xml
